@@ -1,0 +1,107 @@
+windowsのAPIさわる感じですね
+流石によくわかんないです。
+
+WindowsScreenGrabber.cppで下記な感じで呼んでます
+
+ if (BitBlt(m_destDC, rect->left, rect->top, rect->getWidth(), rect->getHeight(), 
+             m_screenDC, rect->left + m_offsetFrameBuffer.x,
+             rect->top + m_offsetFrameBuffer.y, bitBltFlag) == 0) {
+    return false;
+  }
+
+
+wingdi.hでいろいろ定義されています。
+ WINGDIAPI BOOL  WINAPI BitBlt( _In_ HDC hdc, _In_ int x, _In_ int y, _In_ int cx, _In_ int cy, _In_opt_ HDC hdcSrc, _In_ int x1, _In_ int y1, _In_ DWORD rop);
+
+
+https://msdn.microsoft.com/ja-jp/library/cc428307.aspx
+ですかね。
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+[2017/08/21]　所要時間2H
+C++で取ればよいのではないですかね。C++をCから呼び出すみたいな
+
+        IDXGIResource* resource = nullptr;
+        DXGI_OUTDUPL_FRAME_INFO frameInfo;
+
+        const UINT timeout = 500; // ms
+        g_deskDupl->AcquireNextFrame(timeout, &frameInfo, &resource);
+
+		// ポインターを表示するためにデータをとっておく。まぁ、とりま不要
+        g_isPointerVisible = frameInfo.PointerPosition.Visible;
+        g_pointerX = frameInfo.PointerPosition.Position.x;
+        g_pointerY = frameInfo.PointerPosition.Position.y;
+
+        ID3D11Texture2D* texture;
+        resource->QueryInterface(__uuidof(ID3D11Texture2D), reinterpret_cast<void**>(&texture));
+        resource->Release();
+		// 後片付け無視したらここのQueryInterfaceというので中身が取れるのかしら。
+		// MSのサンプルでもいい感じでここができてきているっぽい
+		// ID3D11Texture2Dとは何か？
+		// ここから下はコンテキストとかどうにか取ってファイル保存に使えるかも。
+
+        ID3D11DeviceContext* context;
+        auto device = g_unity->Get<IUnityGraphicsD3D11>()->GetDevice();
+        device->GetImmediateContext(&context);
+        context->CopyResource(g_texture, texture);
+
+        g_deskDupl->ReleaseFrame(); //必要
+
+
+http://tips.hecomi.com/entry/2016/01/11/135428
+
+https://msdn.microsoft.com/ja-jp/library/windows/desktop/hh404487%28v=vs.85%29.aspx?f=255&MSPPError=-2147217396
+
+
+
+(m_AcquiredDesktopImage
+ m_DeskDupl
+ がどこで入力されているか？
+→nullptr入ってる。気にしなくて良いっぽい
+
+テクスチャの概念がわかっていない。
+画素なのでしょうか。。配列が貰えればそれで良さそうなのだけれど
+https://stackoverflow.com/questions/27823255/d3d11-createtexture2d-in-32-bit-format
+変換というか画素配列なんだろうとは思うが。
+
+ファイル出力
+http://www-fps.nifs.ac.jp/ito/memo/d3dx11_02.html
+でもこれはかなり違うことやっている
+
+こっちか？？
+https://stackoverflow.com/questions/21202215/c-directx11-capture-screen-and-save-to-file
+https://msdn.microsoft.com/en-us/library/windows/desktop/ff476298(v=vs.85).aspx
+上記ちょっと違うっぽい
+#include <ScreenGrab.h>
+を使うために
+https://github.com/Microsoft/DirectXTK
+をいれれば良いのか
+
+#include <ScreenGrab.h>
+#include <wincodec.h>
+#include <Windows.h>
+#include <wrl.h>
+
+
+DXGI desktop duplication sampleのDesktopDuplication.cpp
+頭と５２３行あたり
+#include <ScreenGrab.h>
+#include <wincodec.h>
+
+これでBMPにならないですかね？
+            Ret = DuplMgr.GetFrame(&CurrentData, &TimeOut);
+            if (Ret != DUPL_RETURN_SUCCESS)
+            {
+                // An error occurred getting the next frame drop out of loop which
+                // will check if it was expected or not
+                break;
+            }
+			
+			DirectX::SaveWICTextureToFile(((DX_RESOURCES)TData->DxRes).Context, CurrentData.Frame, GUID_ContainerFormatBmp, L"SCREENSHOT.BMP");
+CurrentData.Frameの中身はテクスチャでどういう形になっているのかちょっと不明だけど上掲のstackoverflowで画素配列にするのはできそうよ。
+
+→会社のwin8端末で試したい。
+
+
+
+
+
