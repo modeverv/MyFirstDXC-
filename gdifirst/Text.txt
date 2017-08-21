@@ -1,7 +1,7 @@
-windows‚ÌAPI‚³‚í‚éŠ´‚¶‚Å‚·‚Ë
-—¬Î‚É‚æ‚­‚í‚©‚ñ‚È‚¢‚Å‚·B
+windowsã®APIã•ã‚ã‚‹æ„Ÿã˜ã§ã™ã­
+æµçŸ³ã«ã‚ˆãã‚ã‹ã‚“ãªã„ã§ã™ã€‚
 
-WindowsScreenGrabber.cpp‚Å‰º‹L‚ÈŠ´‚¶‚ÅŒÄ‚ñ‚Å‚Ü‚·
+WindowsScreenGrabber.cppã§ä¸‹è¨˜ãªæ„Ÿã˜ã§å‘¼ã‚“ã§ã¾ã™
 
  if (BitBlt(m_destDC, rect->left, rect->top, rect->getWidth(), rect->getHeight(), 
              m_screenDC, rect->left + m_offsetFrameBuffer.x,
@@ -10,15 +10,15 @@ WindowsScreenGrabber.cpp‚Å‰º‹L‚ÈŠ´‚¶‚ÅŒÄ‚ñ‚Å‚Ü‚·
   }
 
 
-wingdi.h‚Å‚¢‚ë‚¢‚ë’è‹`‚³‚ê‚Ä‚¢‚Ü‚·B
+wingdi.hã§ã„ã‚ã„ã‚å®šç¾©ã•ã‚Œã¦ã„ã¾ã™ã€‚
  WINGDIAPI BOOL  WINAPI BitBlt( _In_ HDC hdc, _In_ int x, _In_ int y, _In_ int cx, _In_ int cy, _In_opt_ HDC hdcSrc, _In_ int x1, _In_ int y1, _In_ DWORD rop);
 
 
 https://msdn.microsoft.com/ja-jp/library/cc428307.aspx
-‚Å‚·‚©‚ËB
-
-[2017/08/21]@Š—vŠÔ2H
-C++‚Åæ‚ê‚Î‚æ‚¢‚Ì‚Å‚Í‚È‚¢‚Å‚·‚©‚ËBC++‚ğC‚©‚çŒÄ‚Ño‚·‚İ‚½‚¢‚È
+ã§ã™ã‹ã­ã€‚
+ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼
+[2017/08/21]ã€€æ‰€è¦æ™‚é–“5H
+C++ã§å–ã‚Œã°ã‚ˆã„ã®ã§ã¯ãªã„ã§ã™ã‹ã­ã€‚C++ã‚’Cã‹ã‚‰å‘¼ã³å‡ºã™ã¿ãŸã„ãª
 
         IDXGIResource* resource = nullptr;
         DXGI_OUTDUPL_FRAME_INFO frameInfo;
@@ -26,7 +26,7 @@ C++‚Åæ‚ê‚Î‚æ‚¢‚Ì‚Å‚Í‚È‚¢‚Å‚·‚©‚ËBC++‚ğC‚©‚çŒÄ‚Ño‚·‚İ‚½‚¢‚È
         const UINT timeout = 500; // ms
         g_deskDupl->AcquireNextFrame(timeout, &frameInfo, &resource);
 
-		// ƒ|ƒCƒ“ƒ^[‚ğ•\¦‚·‚é‚½‚ß‚Éƒf[ƒ^‚ğ‚Æ‚Á‚Ä‚¨‚­B‚Ü‚ŸA‚Æ‚è‚Ü•s—v
+		// ãƒã‚¤ãƒ³ã‚¿ãƒ¼ã‚’è¡¨ç¤ºã™ã‚‹ãŸã‚ã«ãƒ‡ãƒ¼ã‚¿ã‚’ã¨ã£ã¦ãŠãã€‚ã¾ãã€ã¨ã‚Šã¾ä¸è¦
         g_isPointerVisible = frameInfo.PointerPosition.Visible;
         g_pointerX = frameInfo.PointerPosition.Position.x;
         g_pointerY = frameInfo.PointerPosition.Position.y;
@@ -34,17 +34,17 @@ C++‚Åæ‚ê‚Î‚æ‚¢‚Ì‚Å‚Í‚È‚¢‚Å‚·‚©‚ËBC++‚ğC‚©‚çŒÄ‚Ño‚·‚İ‚½‚¢‚È
         ID3D11Texture2D* texture;
         resource->QueryInterface(__uuidof(ID3D11Texture2D), reinterpret_cast<void**>(&texture));
         resource->Release();
-		// Œã•Ğ•t‚¯–³‹‚µ‚½‚ç‚±‚±‚ÌQueryInterface‚Æ‚¢‚¤‚Ì‚Å’†g‚ªæ‚ê‚é‚Ì‚©‚µ‚çB
-		// MS‚ÌƒTƒ“ƒvƒ‹‚Å‚à‚¢‚¢Š´‚¶‚Å‚±‚±‚ª‚Å‚«‚Ä‚«‚Ä‚¢‚é‚Á‚Û‚¢
-		// ID3D11Texture2D‚Æ‚Í‰½‚©H
-		// ‚±‚±‚©‚ç‰º‚ÍƒRƒ“ƒeƒLƒXƒg‚Æ‚©‚Ç‚¤‚É‚©æ‚Á‚Äƒtƒ@ƒCƒ‹•Û‘¶‚Ég‚¦‚é‚©‚àB
+		// å¾Œç‰‡ä»˜ã‘ç„¡è¦–ã—ãŸã‚‰ã“ã“ã®QueryInterfaceã¨ã„ã†ã®ã§ä¸­èº«ãŒå–ã‚Œã‚‹ã®ã‹ã—ã‚‰ã€‚
+		// MSã®ã‚µãƒ³ãƒ—ãƒ«ã§ã‚‚ã„ã„æ„Ÿã˜ã§ã“ã“ãŒã§ãã¦ãã¦ã„ã‚‹ã£ã½ã„
+		// ID3D11Texture2Dã¨ã¯ä½•ã‹ï¼Ÿ
+		// ã“ã“ã‹ã‚‰ä¸‹ã¯ã‚³ãƒ³ãƒ†ã‚­ã‚¹ãƒˆã¨ã‹ã©ã†ã«ã‹å–ã£ã¦ãƒ•ã‚¡ã‚¤ãƒ«ä¿å­˜ã«ä½¿ãˆã‚‹ã‹ã‚‚ã€‚
 
         ID3D11DeviceContext* context;
         auto device = g_unity->Get<IUnityGraphicsD3D11>()->GetDevice();
         device->GetImmediateContext(&context);
         context->CopyResource(g_texture, texture);
 
-        g_deskDupl->ReleaseFrame(); //•K—v
+        g_deskDupl->ReleaseFrame(); //å¿…è¦
 
 
 http://tips.hecomi.com/entry/2016/01/11/135428
@@ -55,26 +55,26 @@ https://msdn.microsoft.com/ja-jp/library/windows/desktop/hh404487%28v=vs.85%29.a
 
 (m_AcquiredDesktopImage
  m_DeskDupl
- ‚ª‚Ç‚±‚Å“ü—Í‚³‚ê‚Ä‚¢‚é‚©H
-¨nullptr“ü‚Á‚Ä‚éB‹C‚É‚µ‚È‚­‚Ä—Ç‚¢‚Á‚Û‚¢
+ ãŒã©ã“ã§å…¥åŠ›ã•ã‚Œã¦ã„ã‚‹ã‹ï¼Ÿ
+â†’nullptrå…¥ã£ã¦ã‚‹ã€‚æ°—ã«ã—ãªãã¦è‰¯ã„ã£ã½ã„
 
-ƒeƒNƒXƒ`ƒƒ‚ÌŠT”O‚ª‚í‚©‚Á‚Ä‚¢‚È‚¢B
-‰æ‘f‚È‚Ì‚Å‚µ‚å‚¤‚©BB”z—ñ‚ª–á‚¦‚ê‚Î‚»‚ê‚Å—Ç‚³‚»‚¤‚È‚Ì‚¾‚¯‚ê‚Ç
+ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®æ¦‚å¿µãŒã‚ã‹ã£ã¦ã„ãªã„ã€‚
+ç”»ç´ ãªã®ã§ã—ã‚‡ã†ã‹ã€‚ã€‚é…åˆ—ãŒè²°ãˆã‚Œã°ãã‚Œã§è‰¯ã•ãã†ãªã®ã ã‘ã‚Œã©
 https://stackoverflow.com/questions/27823255/d3d11-createtexture2d-in-32-bit-format
-•ÏŠ·‚Æ‚¢‚¤‚©‰æ‘f”z—ñ‚È‚ñ‚¾‚ë‚¤‚Æ‚Ív‚¤‚ªB
+å¤‰æ›ã¨ã„ã†ã‹ç”»ç´ é…åˆ—ãªã‚“ã ã‚ã†ã¨ã¯æ€ã†ãŒã€‚
 
-ƒtƒ@ƒCƒ‹o—Í
+ãƒ•ã‚¡ã‚¤ãƒ«å‡ºåŠ›
 http://www-fps.nifs.ac.jp/ito/memo/d3dx11_02.html
-‚Å‚à‚±‚ê‚Í‚©‚È‚èˆá‚¤‚±‚Æ‚â‚Á‚Ä‚¢‚é
+ã§ã‚‚ã“ã‚Œã¯ã‹ãªã‚Šé•ã†ã“ã¨ã‚„ã£ã¦ã„ã‚‹
 
-‚±‚Á‚¿‚©HH
+ã“ã£ã¡ã‹ï¼Ÿï¼Ÿ
 https://stackoverflow.com/questions/21202215/c-directx11-capture-screen-and-save-to-file
 https://msdn.microsoft.com/en-us/library/windows/desktop/ff476298(v=vs.85).aspx
-ã‹L‚¿‚å‚Á‚Æˆá‚¤‚Á‚Û‚¢
+ä¸Šè¨˜ã¡ã‚‡ã£ã¨é•ã†ã£ã½ã„
 #include <ScreenGrab.h>
-‚ğg‚¤‚½‚ß‚É
+ã‚’ä½¿ã†ãŸã‚ã«
 https://github.com/Microsoft/DirectXTK
-‚ğ‚¢‚ê‚ê‚Î—Ç‚¢‚Ì‚©
+ã‚’ã„ã‚Œã‚Œã°è‰¯ã„ã®ã‹
 
 #include <ScreenGrab.h>
 #include <wincodec.h>
@@ -82,12 +82,12 @@ https://github.com/Microsoft/DirectXTK
 #include <wrl.h>
 
 
-DXGI desktop duplication sample‚ÌDesktopDuplication.cpp
-“ª‚Æ‚T‚Q‚Rs‚ ‚½‚è
+DXGI desktop duplication sampleã®DesktopDuplication.cpp
+é ­ã¨ï¼•ï¼’ï¼“è¡Œã‚ãŸã‚Š
 #include <ScreenGrab.h>
 #include <wincodec.h>
 
-‚±‚ê‚ÅBMP‚É‚È‚ç‚È‚¢‚Å‚·‚©‚ËH
+ã“ã‚Œã§BMPã«ãªã‚‰ãªã„ã§ã™ã‹ã­ï¼Ÿ
             Ret = DuplMgr.GetFrame(&CurrentData, &TimeOut);
             if (Ret != DUPL_RETURN_SUCCESS)
             {
@@ -97,9 +97,9 @@ DXGI desktop duplication sample‚ÌDesktopDuplication.cpp
             }
 			
 			DirectX::SaveWICTextureToFile(((DX_RESOURCES)TData->DxRes).Context, CurrentData.Frame, GUID_ContainerFormatBmp, L"SCREENSHOT.BMP");
-CurrentData.Frame‚Ì’†g‚ÍƒeƒNƒXƒ`ƒƒ‚Å‚Ç‚¤‚¢‚¤Œ`‚É‚È‚Á‚Ä‚¢‚é‚Ì‚©‚¿‚å‚Á‚Æ•s–¾‚¾‚¯‚ÇãŒf‚Ìstackoverflow‚Å‰æ‘f”z—ñ‚É‚·‚é‚Ì‚Í‚Å‚«‚»‚¤‚æB
+CurrentData.Frameã®ä¸­èº«ã¯ãƒ†ã‚¯ã‚¹ãƒãƒ£ã§ã©ã†ã„ã†å½¢ã«ãªã£ã¦ã„ã‚‹ã®ã‹ã¡ã‚‡ã£ã¨ä¸æ˜ã ã‘ã©ä¸Šæ²ã®stackoverflowã§ç”»ç´ é…åˆ—ã«ã™ã‚‹ã®ã¯ã§ããã†ã‚ˆã€‚
 
-¨‰ïĞ‚Ìwin8’[––‚Å‚µ‚½‚¢B
+â†’ä¼šç¤¾ã®win8ç«¯æœ«ã§è©¦ã—ãŸã„ã€‚
 
 
 
